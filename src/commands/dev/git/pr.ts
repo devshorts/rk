@@ -47,7 +47,7 @@ export default class Pr extends Command {
 
     const ticket = branch.split('/')[1];
 
-    const title = `${flags.type}: [${ticket.toUpperCase()}] ${flags.title}`;
+    const title = `${flags.type}: [${(ticket || "").toUpperCase()}] ${flags.title}`;
     try {
       // Initialize Octokit with GitHub token
       const octokit = new Octokit({
