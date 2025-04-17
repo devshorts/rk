@@ -17,6 +17,7 @@ rk autocomplete:script zsh
 # Commands
 <!-- commands -->
 * [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
+* [`rk dev:git:pr`](#rk-devgitpr)
 * [`rk dev:git:resume-shortcut-branch`](#rk-devgitresume-shortcut-branch)
 * [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
 * [`rk help [COMMAND]`](#rk-help-command)
@@ -50,6 +51,31 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.1/src/commands/autocomplete/index.ts)_
+
+## `rk dev:git:pr`
+
+Open a pull request using GitHub API
+
+```
+USAGE
+  $ rk dev:git:pr -t <value> --head <value> [-b <value>] [-T fix|feat|chore] [--base <value>]
+
+FLAGS
+  -T, --type=<option>  [default: fix] Pull request type (e.g., "fix", "feat")
+                       <options: fix|feat|chore>
+  -b, --body=<value>   Pull request description
+  -t, --title=<value>  (required) Pull request title
+  --base=<value>       [default: master] Base branch
+  --head=<value>       (required) [default: HEAD] Head branch
+
+DESCRIPTION
+  Open a pull request using GitHub API
+
+EXAMPLES
+  $ rk dev:git:pr --title "fix: [SC-1234] - Update dependencies" --body "Description of changes" --base main --head feature-branch
+```
+
+_See code: [dist/commands/dev/git/pr.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/pr.ts)_
 
 ## `rk dev:git:resume-shortcut-branch`
 

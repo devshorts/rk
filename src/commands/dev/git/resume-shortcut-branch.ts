@@ -1,4 +1,4 @@
-import { Command, Flags } from '@oclif/core';
+import { Command } from '@oclif/core';
 
 import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
@@ -10,10 +10,7 @@ const exec = util.promisify(execNonPromise);
 export default class ResumeShortcutBranch extends Command {
   static description = 'Resumes shortcut branches';
 
-  static flags = {
-    token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
-    readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
-  };
+  static flags = {};
 
   async run() {
     const { } = await this.parse(ResumeShortcutBranch);
