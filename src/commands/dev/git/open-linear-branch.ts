@@ -6,25 +6,26 @@ import { branchToTicket } from '../../../lib/git';
 
 const exec = util.promisify(execNonPromise);
 
-export default class OpenShortcutBranch extends Command {
-  static description = 'Opens a shortcut ticket for the current branch';
+export default class OpenLinearBranch extends Command {
+  static description = 'Opens a linear ticket for the current branch';
 
   static flags = {
-    token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
+    token: Flags.string({ required: true }),
+    baseUrl: Flags.string({ required: true }),
   };
 
   async run() {
-    const { flags } = await this.parse(OpenShortcutBranch);
+    const { flags } = await this.parse(OpenLinearBranch);
 
     if (flags.token === undefined) {
-      throw new Error('Shortcut API token is required. Use --token or SHORTCUT_API_TOKEN env variable');
+      throw new Error('Linear API token is required. Use --token or LINEAR_API_TOKEN env variable');
     }
 
     const branch = await exec('git rev-parse --abbrev-ref HEAD');
 
     const ticket = branchToTicket(branch.stdout)
 
-    const url = `https://app.shortcut.com/coast/story/${ticket}`
+    const url = `https://${flags.baseUrl}/issue/${ticket}`
 
     await exec(`open ${url}`);
 

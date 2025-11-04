@@ -17,12 +17,11 @@ rk autocomplete:script zsh
 # Commands
 <!-- commands -->
 * [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
-* [`rk dev:git:open-shortcut-branch`](#rk-devgitopen-shortcut-branch)
+* [`rk dev:git:open-linear-branch`](#rk-devgitopen-linear-branch)
 * [`rk dev:git:pr`](#rk-devgitpr)
-* [`rk dev:git:resume-shortcut-branch`](#rk-devgitresume-shortcut-branch)
-* [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
+* [`rk dev:git:resume-linear-branch`](#rk-devgitresume-linear-branch)
+* [`rk dev:git:switch-linear-branch`](#rk-devgitswitch-linear-branch)
 * [`rk help [COMMAND]`](#rk-help-command)
-* [`rk random:rainbowify`](#rk-randomrainbowify)
 
 ## `rk autocomplete [SHELL]`
 
@@ -53,22 +52,23 @@ EXAMPLES
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.1/src/commands/autocomplete/index.ts)_
 
-## `rk dev:git:open-shortcut-branch`
+## `rk dev:git:open-linear-branch`
 
-Opens a shortcut ticket for the current branch
+Opens a linear ticket for the current branch
 
 ```
 USAGE
-  $ rk dev:git:open-shortcut-branch [--token <value>]
+  $ rk dev:git:open-linear-branch --token <value> --baseUrl <value>
 
 FLAGS
-  --token=<value>  [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
+  --baseUrl=<value>  (required)
+  --token=<value>    (required)
 
 DESCRIPTION
-  Opens a shortcut ticket for the current branch
+  Opens a linear ticket for the current branch
 ```
 
-_See code: [dist/commands/dev/git/open-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/open-shortcut-branch.ts)_
+_See code: [dist/commands/dev/git/open-linear-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/open-linear-branch.ts)_
 
 ## `rk dev:git:pr`
 
@@ -95,43 +95,41 @@ EXAMPLES
 
 _See code: [dist/commands/dev/git/pr.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/pr.ts)_
 
-## `rk dev:git:resume-shortcut-branch`
+## `rk dev:git:resume-linear-branch`
 
-Resumes shortcut branches
+Resumes linear branches
 
 ```
 USAGE
-  $ rk dev:git:resume-shortcut-branch [--token <value>] [--readyForDevState <value>]
+  $ rk dev:git:resume-linear-branch [--token <value>]
 
 FLAGS
-  --readyForDevState=<value>  [default: Ready For Development]
-  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
+  --token=<value>
 
 DESCRIPTION
-  Resumes shortcut branches
+  Resumes linear branches
 ```
 
-_See code: [dist/commands/dev/git/resume-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/resume-shortcut-branch.ts)_
+_See code: [dist/commands/dev/git/resume-linear-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/resume-linear-branch.ts)_
 
-## `rk dev:git:switch-shortcut-branch`
+## `rk dev:git:switch-linear-branch`
 
 Switches to a branch by a shortcut name
 
 ```
 USAGE
-  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [--configFile <value>] [-a]
+  $ rk dev:git:switch-linear-branch --username <value> --teamKey <value> [--token <value>]
 
 FLAGS
-  -a, --all
-  --configFile=<value>        [default: .shortcut-config.json]
-  --readyForDevState=<value>  [default: Ready For Development]
-  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
+  --teamKey=<value>   (required)
+  --token=<value>
+  --username=<value>  (required)
 
 DESCRIPTION
   Switches to a branch by a shortcut name
 ```
 
-_See code: [dist/commands/dev/git/switch-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/switch-shortcut-branch.ts)_
+_See code: [dist/commands/dev/git/switch-linear-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/switch-linear-branch.ts)_
 
 ## `rk help [COMMAND]`
 
@@ -152,31 +150,4 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
-
-## `rk random:rainbowify`
-
-Creates a rainbowified/party-fied gif from an image for slack
-
-```
-USAGE
-  $ rk random:rainbowify [--gif <value> | --colors <value>] [--useGifIntermediateFrames | --image <value>] [--outDir
-    <value>] [--delay <value>] [--saturation <value>] [--lighten <value>] [--size <value>]
-
-FLAGS
-  --colors=<value>                 [default: 10] Number of colors to use
-  --delay=<value>                  [default: 3] Frame delay for the gif
-  --gif=<value>                    Gif to use
-  --image=<value>                  Image to use
-  --lighten=<value>                [default: 10] Lightening level to apply to each frame
-  --outDir=<value>                 [default: .] Output file dir
-  --saturation=<value>             [default: 50] Saturation level to apply to each frame
-  --size=<value>                   [default: 128] Squared size of the output image (scaled to fit)
-  --[no-]useGifIntermediateFrames  Whether or not to add intermediate frames to gifs to keep the fast rainbow effect.
-                                   Can increase the size of the gif.
-
-DESCRIPTION
-  Creates a rainbowified/party-fied gif from an image for slack
-```
-
-_See code: [dist/commands/random/rainbowify.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/random/rainbowify.ts)_
 <!-- commandsstop -->

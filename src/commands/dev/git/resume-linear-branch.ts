@@ -4,33 +4,35 @@ import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
 import { select } from '@inquirer/prompts';
 import _ from 'lodash';
-import Shortcut from '../../../lib/api';
-import { StorySearchResult } from '@shortcut/client';
-import { GitBranch, gitBranchTickets, ShortcutTicket } from '../../../lib/git';
+import { GitBranch, gitBranchTickets } from '../../../lib/git';
+import { LinearApi } from '../../../lib/linear/api';
+import { Api, Ticket } from '../../../lib/model/types';
+import { LinearClient } from '@linear/sdk';
 
 const exec = util.promisify(execNonPromise);
 
-export default class ResumeShortcutBranch extends Command {
-  static description = 'Resumes shortcut branches';
+export default class ResumeLinearBranch extends Command {
+  static description = 'Resumes linear branches';
 
   static flags = {
-    token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
-    readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
+    token: Flags.string({ required: false, default: process.env.LINEAR_API_TOKEN }),
   };
 
   async run() {
-    const { flags } = await this.parse(ResumeShortcutBranch);
+    const { flags } = await this.parse(ResumeLinearBranch);
 
-    const shortcut = await new Shortcut(flags.token!).listTickets(flags.readyForDevState);
+    const api: Api = new LinearApi(new LinearClient({apiKey: flags.token}));
 
-    const branches = await this.getBranches(shortcut.tickets);
+    const tickets = await api.listTickets();
+
+    const branches = await this.getBranches(tickets);
 
     const byTicketId = _.groupBy(branches, x => x.ticket.id.toString());
 
     const result = await select<{ name: string }>({
       message: 'Resume?',
       choices: Object.keys(byTicketId).map(id => ({
-        name: byTicketId[id][0].ticket.name,
+        name: byTicketId[id][0].ticket.title,
         value: {
           name: byTicketId[id][0].ticket.id.toString(),
         },
@@ -53,21 +55,13 @@ export default class ResumeShortcutBranch extends Command {
   }
 
   private async getBranches(
-    tickets: StorySearchResult[]
-  ): Promise<Array<{ ticket: StorySearchResult; value: GitBranch }>> {
+    tickets: Ticket[]
+  ): Promise<Array<{ ticket: Ticket; value: GitBranch }>> {
     const branches = await gitBranchTickets();
 
     const pairings: Array<
-      undefined | { ticket: StorySearchResult; value: GitBranch }
-    > = branches.map(
-      (
-        value:
-          | undefined
-          | {
-              ticket: ShortcutTicket;
-              branch: string;
-            }
-      ) => {
+      undefined | { ticket: Ticket; value: GitBranch }
+    > = branches.map(value => {
         if (_.isNil(value)) {
           return undefined;
         }

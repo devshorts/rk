@@ -5,20 +5,20 @@ import util from 'util';
 
 const exec = util.promisify(execNonPromise);
 
-export type ShortcutTicket = Brand<string, 'ShortcutTicket'>;
+export type TicketId = Brand<string, 'ShortcutTicket'>;
 
-export function branchToTicket(name: string): ShortcutTicket | undefined {
+export function branchToTicket(name: string): TicketId | undefined {
   const ticket = name.split('/')[1]?.toLowerCase()?.replace(/sc-/g, '');
 
   if(_.isEmpty(ticket)) {
     return undefined;
   }
 
-  return ticket as ShortcutTicket
+  return ticket as TicketId
 }
 
 export interface GitBranch {
-  ticket: ShortcutTicket;
+  ticket: TicketId;
   branch: string;
 }
 
