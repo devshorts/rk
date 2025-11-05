@@ -92,7 +92,7 @@
           "type": "option",
           "required": true,
           "multiple": false,
-          "default": "anton.kropp"
+          "default": "process.env.USER"
         },
         "teamKey": { "name": "teamKey", "type": "option", "required": true, "multiple": false }
       },

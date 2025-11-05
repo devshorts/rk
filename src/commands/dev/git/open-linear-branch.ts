@@ -10,7 +10,7 @@ export default class OpenLinearBranch extends Command {
   static description = 'Opens a linear ticket for the current branch';
 
   static flags = {
-    token: Flags.string({ required: true }),
+    token: Flags.string({ required: true, default: process.env.LINEAR_API_TOKEN }),
     baseUrl: Flags.string({ required: true }),
   };
 

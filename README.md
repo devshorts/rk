@@ -123,7 +123,7 @@ USAGE
 FLAGS
   --teamKey=<value>   (required)
   --token=<value>
-  --username=<value>  (required)
+  --username=<value>  (required) [default: process.env.USER]
 
 DESCRIPTION
   Switches to a branch by a shortcut name
