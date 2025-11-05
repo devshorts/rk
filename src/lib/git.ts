@@ -8,7 +8,7 @@ const exec = util.promisify(execNonPromise);
 export type TicketId = Brand<string, 'ShortcutTicket'>;
 
 export function branchToTicket(name: string): TicketId | undefined {
-  const ticket = name.split('/')[1]?.toLowerCase()?.replace(/sc-/g, '');
+  const ticket = name.split('/')[1];
 
   if(_.isEmpty(ticket)) {
     return undefined;

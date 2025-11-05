@@ -32,7 +32,7 @@ export default class ResumeLinearBranch extends Command {
     const result = await select<{ name: string }>({
       message: 'Resume?',
       choices: Object.keys(byTicketId).map(id => ({
-        name: byTicketId[id][0].ticket.title,
+        name: `${byTicketId[id][0].ticket.id} - ${byTicketId[id][0].ticket.title}`,
         value: {
           name: byTicketId[id][0].ticket.id.toString(),
         },
@@ -43,9 +43,9 @@ export default class ResumeLinearBranch extends Command {
     const branch = await select<{ name: string }>({
       message: 'Which branch?',
       choices: byTicketId[result.name].map(branch => ({
-        name: branch.value.branch,
+        name: branch.git.branch,
         value: {
-          name: branch.value.branch,
+          name: branch.git.branch,
         },
       })),
       loop: false,
@@ -56,20 +56,18 @@ export default class ResumeLinearBranch extends Command {
 
   private async getBranches(
     tickets: Ticket[]
-  ): Promise<Array<{ ticket: Ticket; value: GitBranch }>> {
+  ): Promise<Array<{ ticket: Ticket; git: GitBranch }>> {
     const branches = await gitBranchTickets();
 
-    const pairings: Array<
-      undefined | { ticket: Ticket; value: GitBranch }
-    > = branches.map(value => {
-        if (_.isNil(value)) {
+    const pairings = branches.map(branch => {
+        if (_.isNil(branch)) {
           return undefined;
         }
 
-        const ticket = tickets.find(ticket => ticket.id.toString() === value?.ticket);
+        const ticket = tickets.find(ticket => ticket.id.toString() === branch?.ticket);
 
         if (!_.isNil(ticket)) {
-          return { ticket, value: value! };
+          return { ticket, git: branch! };
         }
 
         return undefined;
