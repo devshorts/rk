@@ -62,7 +62,7 @@ USAGE
 
 FLAGS
   --baseUrl=<value>  (required)
-  --token=<value>    (required)
+  --token=<value>    (required) [default: ]
 
 DESCRIPTION
   Opens a linear ticket for the current branch
@@ -104,7 +104,7 @@ USAGE
   $ rk dev:git:resume-linear-branch [--token <value>]
 
 FLAGS
-  --token=<value>
+  --token=<value>  [default: ]
 
 DESCRIPTION
   Resumes linear branches
@@ -122,8 +122,8 @@ USAGE
 
 FLAGS
   --teamKey=<value>   (required)
-  --token=<value>
-  --username=<value>  (required) [default: process.env.USER]
+  --token=<value>     [default: ]
+  --username=<value>  (required) [default: ]
 
 DESCRIPTION
   Switches to a branch by a shortcut name

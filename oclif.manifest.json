@@ -10,7 +10,13 @@
       "pluginType": "core",
       "aliases": [],
       "flags": {
-        "token": { "name": "token", "type": "option", "required": true, "multiple": false },
+        "token": {
+          "name": "token",
+          "type": "option",
+          "required": true,
+          "multiple": false,
+          "default": ""
+        },
         "baseUrl": { "name": "baseUrl", "type": "option", "required": true, "multiple": false }
       },
       "args": [],
@@ -73,7 +79,15 @@
       "pluginAlias": "rk",
       "pluginType": "core",
       "aliases": [],
-      "flags": { "token": { "name": "token", "type": "option", "required": false, "multiple": false } },
+      "flags": {
+        "token": {
+          "name": "token",
+          "type": "option",
+          "required": false,
+          "multiple": false,
+          "default": ""
+        }
+      },
       "args": [],
       "_globalFlags": {}
     },
@@ -86,13 +100,19 @@
       "pluginType": "core",
       "aliases": [],
       "flags": {
-        "token": { "name": "token", "type": "option", "required": false, "multiple": false },
+        "token": {
+          "name": "token",
+          "type": "option",
+          "required": false,
+          "multiple": false,
+          "default": ""
+        },
         "username": {
           "name": "username",
           "type": "option",
           "required": true,
           "multiple": false,
-          "default": "process.env.USER"
+          "default": ""
         },
         "teamKey": { "name": "teamKey", "type": "option", "required": true, "multiple": false }
       },

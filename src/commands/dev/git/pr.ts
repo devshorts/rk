@@ -46,7 +46,7 @@ export default class Pr extends Command {
 
     const {stdout: branch} = await this.executeCommand(`git rev-parse --abbrev-ref HEAD`)
 
-    const [user, ticket, type, name] = branch.split('/');
+    const [user, ticket, name] = branch.split('/');
 
     const contextTitle = flags.title || _.capitalize(name.split("-").join(" "))
 
