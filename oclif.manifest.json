@@ -86,6 +86,13 @@
           "required": false,
           "multiple": false,
           "default": ""
+        },
+        "config": {
+          "name": "config",
+          "type": "option",
+          "required": true,
+          "multiple": false,
+          "default": "./linear.config.json"
         }
       },
       "args": [],
@@ -114,7 +121,14 @@
           "multiple": false,
           "default": ""
         },
-        "teamKey": { "name": "teamKey", "type": "option", "required": true, "multiple": false }
+        "teamKey": { "name": "teamKey", "type": "option", "required": true, "multiple": false },
+        "config": {
+          "name": "config",
+          "type": "option",
+          "required": true,
+          "multiple": false,
+          "default": "./linear.config.json"
+        }
       },
       "args": [],
       "_globalFlags": {}

@@ -15,8 +15,8 @@ export interface CreateTicket extends Omit<Ticket, 'id' | 'url'> {
   autoAssign?: boolean
 }
 
-export interface Api {
-  listTickets(): Promise<Ticket[]>
+export interface Api<Config = unknown> {
+  listTickets(c?: Config): Promise<Ticket[]>
   createTicket(ticket: CreateTicket): Promise<Ticket>
 }
 

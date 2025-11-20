@@ -1,18 +1,21 @@
 import { LinearClient } from '@linear/sdk';
 import { Api, CreateTicket, Ticket } from '../model/types';
 import { TicketId } from '../git';
+import { IssueFilter } from '@linear/sdk/dist/_generated_documents';
 
-export class LinearApi implements Api {
+export interface LinearConfig {
+  issueFilter?: IssueFilter;
+}
+export class LinearApi implements Api<LinearConfig> {
   constructor(private client: LinearClient, private teamKey?: string) {}
 
-  async listTickets(): Promise<Ticket[]> {
+  async listTickets(config: LinearConfig): Promise<Ticket[]> {
     const me = await this.client.viewer;
 
-    const myIssues = await me.assignedIssues();
-
-    if (myIssues.nodes.length) {
-      myIssues.nodes.map(issue => console.log(`${me.displayName} has issue: ${issue.title}`));
-    }
+    const myIssues = await me.assignedIssues({
+      filter: config.issueFilter,
+      first: 50,
+    });
 
     return myIssues.nodes.map(issue => ({
       id: issue.identifier as TicketId,

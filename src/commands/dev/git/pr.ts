@@ -3,6 +3,7 @@ import { Octokit } from '@octokit/rest';
 import util from 'util';
 import { exec as execNonPromise } from 'child_process';
 import _ from 'lodash';
+import * as fs from 'node:fs';
 
 const exec = util.promisify(execNonPromise);
 
@@ -46,6 +47,8 @@ export default class Pr extends Command {
 
     const {stdout: branch} = await this.executeCommand(`git rev-parse --abbrev-ref HEAD`)
 
+    const root = await this.executeCommand('git rev-parse --show-toplevel').then(res => res.stdout);
+
     const [user, ticket, name] = branch.split('/');
 
     const contextTitle = flags.title || _.capitalize(name.split("-").join(" "))
@@ -64,12 +67,14 @@ export default class Pr extends Command {
       const { stdout: remoteUrl } = await this.executeCommand('git config --get remote.origin.url');
       const [owner, repo] = remoteUrl.replace('git@github.com:', '').replace('.git', '').split('/');
 
+      const body = flags.body || await fs.promises.readFile(`${root}/.github/pull_request_template.md`, 'utf-8').catch(() => '');
+
       // Create pull request
       const response = await octokit.rest.pulls.create({
         owner,
         repo,
         title: title.trim(),
-        body: flags.body,
+        body,
         base: flags.base.trim(),
         head: branch.trim(),
       });
@@ -77,7 +82,7 @@ export default class Pr extends Command {
       this.log(`Pull request created successfully: ${response.data.html_url}`);
     } catch (error) {
       if ((error as any).status == 404) {
-        this.error(`Unable to create pull request for branch '${branch}'. Does the branch exist upstream?`);
+        this.error(`Unable to create pull request for branch '${branch}'. Does the branch exist upstream? ${error}`);
       }else {
         this.error(`Failed to create pull request: ${error}`);
       }

@@ -6,8 +6,9 @@ import { select } from '@inquirer/prompts';
 import _ from 'lodash';
 import { GitBranch, gitBranchTickets } from '../../../lib/git';
 import { LinearApi } from '../../../lib/linear/api';
-import { Api, Ticket } from '../../../lib/model/types';
+import { Ticket } from '../../../lib/model/types';
 import { LinearClient } from '@linear/sdk';
+import { loadConfig } from '../../../lib/linear/config';
 
 const exec = util.promisify(execNonPromise);
 
@@ -16,14 +17,17 @@ export default class ResumeLinearBranch extends Command {
 
   static flags = {
     token: Flags.string({ required: false, default: process.env.LINEAR_API_TOKEN }),
+    config: Flags.string({ required: true, default: './linear.config.json' }),
   };
 
   async run() {
     const { flags } = await this.parse(ResumeLinearBranch);
 
-    const api: Api = new LinearApi(new LinearClient({apiKey: flags.token}));
+    const config = await loadConfig(flags.config);
 
-    const tickets = await api.listTickets();
+    const api = new LinearApi(new LinearClient({apiKey: flags.token}));
+
+    const tickets = await api.listTickets(config);
 
     const branches = await this.getBranches(tickets);
 

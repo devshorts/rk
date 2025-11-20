@@ -101,10 +101,11 @@ Resumes linear branches
 
 ```
 USAGE
-  $ rk dev:git:resume-linear-branch [--token <value>]
+  $ rk dev:git:resume-linear-branch --config <value> [--token <value>]
 
 FLAGS
-  --token=<value>  [default: ]
+  --config=<value>  (required) [default: ./linear.config.json]
+  --token=<value>   [default: ]
 
 DESCRIPTION
   Resumes linear branches
@@ -118,9 +119,10 @@ Switches to a branch by a shortcut name
 
 ```
 USAGE
-  $ rk dev:git:switch-linear-branch --username <value> --teamKey <value> [--token <value>]
+  $ rk dev:git:switch-linear-branch --username <value> --teamKey <value> --config <value> [--token <value>]
 
 FLAGS
+  --config=<value>    (required) [default: ./linear.config.json]
   --teamKey=<value>   (required)
   --token=<value>     [default: ]
   --username=<value>  (required) [default: ]

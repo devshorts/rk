@@ -5,8 +5,9 @@ import { input, select } from '@inquirer/prompts';
 import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
 import { LinearApi } from '../../../lib/linear/api';
-import { Api, BranchTicket, Ticket, UserDetails } from '../../../lib/model/types';
+import { BranchTicket, Ticket, UserDetails } from '../../../lib/model/types';
 import { LinearClient } from '@linear/sdk';
+import { loadConfig } from '../../../lib/linear/config';
 
 const exec = util.promisify(execNonPromise);
 
@@ -17,6 +18,7 @@ export default class SwitchLinearBranch extends Command {
     token: Flags.string({ required: false, default: process.env.LINEAR_API_TOKEN }),
     username: Flags.string({ required: true, default: process.env.USER }),
     teamKey: Flags.string({ required: true }),
+    config: Flags.string({ required: true, default: './linear.config.json' }),
   };
 
   async run() {
@@ -30,11 +32,11 @@ export default class SwitchLinearBranch extends Command {
       name: flags.username
     }
 
-    const api: Api = new LinearApi(new LinearClient({apiKey: flags.token}), flags.teamKey);
+    const config = await loadConfig(flags.config)
 
-    const [tickets] = await Promise.all([
-      api.listTickets()
-    ]);
+    const api = new LinearApi(new LinearClient({apiKey: flags.token}), flags.teamKey);
+
+    const tickets = await api.listTickets(config)
 
     const ticket: BranchTicket = await select<BranchTicket>({
       message: 'What are you working on?',
