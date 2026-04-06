@@ -2,6 +2,7 @@ import { LinearClient } from '@linear/sdk';
 import { Api, CreateTicket, Ticket } from '../model/types';
 import { TicketId } from '../git';
 import { IssueFilter } from '@linear/sdk/dist/_generated_documents';
+import _ from 'lodash';
 
 export interface LinearConfig {
   issueFilter?: IssueFilter;
@@ -17,12 +18,12 @@ export class LinearApi implements Api<LinearConfig> {
       first: 50,
     });
 
-    return myIssues.nodes.map(issue => ({
+    return _.sortBy(myIssues.nodes.map(issue => ({
       id: issue.identifier as TicketId,
       title: issue.title,
       description: issue.description,
       url: issue.url,
-    }));
+    })), i => i.title);
   }
 
   async createTicket(ticket: CreateTicket): Promise<Ticket> {
